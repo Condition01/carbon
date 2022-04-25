@@ -1,28 +1,23 @@
 package br.com.carbon.flows.carbon
 
-import br.com.carbon.contracts.CarbonReportContract
 import br.com.carbon.flows.accounts.GetAccountPubKeyAndEncapsulate
+import br.com.carbon.flows.addUpdateEvolvableTokenForIssue
 import br.com.carbon.flows.carbon.models.CarbonIssueFlowResponse
+import br.com.carbon.flows.getCustomFungible
 import br.com.carbon.service.CarbonQueryService
-import br.com.carbon.states.CustomFungibleToken
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo
-import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType
-import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType
 import com.r3.corda.lib.tokens.contracts.types.TokenType
 import com.r3.corda.lib.tokens.contracts.utilities.issuedBy
 import com.r3.corda.lib.tokens.contracts.utilities.of
 import com.r3.corda.lib.tokens.workflows.flows.issue.addIssueTokens
 import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow
 import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow
-import net.corda.core.contracts.Amount
-import net.corda.core.contracts.StateAndRef
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.flows.FlowException
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.FlowSession
 import net.corda.core.flows.StartableByRPC
-import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.transactions.TransactionBuilder
 import net.corda.core.utilities.ProgressTracker
@@ -128,24 +123,6 @@ class IssueCarbonFungiblesFlow(
         )
     }
 
-    @Suspendable
-    fun addUpdateEvolvableTokenForIssue(
-        transactionBuilder: TransactionBuilder,
-        oldStateAndRef: StateAndRef<EvolvableTokenType>,
-        newState: EvolvableTokenType
-    ): TransactionBuilder {
-        val oldState = oldStateAndRef.state.data
-        val maintainers = (oldState.maintainers + newState.maintainers).toSet()
-        val signingKeys = maintainers.map { it.owningKey }
-        return transactionBuilder
-            .addCommand(data = CarbonReportContract.UpdateForIssue(), keys = signingKeys)
-            .addInputState(oldStateAndRef)
-            .addOutputState(state = newState, contract = oldStateAndRef.state.contract)
-    }
 
-    fun getCustomFungible(issuedTokenType: Amount<IssuedTokenType>,
-                          owner: AbstractParty,
-                          reportLinearId: UniqueIdentifier): CustomFungibleToken
-        = CustomFungibleToken(issuedTokenType, owner, reportLinearId)
 
 }

@@ -1,6 +1,7 @@
 package br.com.carbon.flows.carbon
 
 import br.com.carbon.flows.accounts.GetAccountPubKeyAndEncapsulate
+import br.com.carbon.flows.addMoveCustomFungibleTokens
 import br.com.carbon.flows.carbon.models.CarbonMoveFlowResponse
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo
@@ -53,9 +54,12 @@ object MoveCarbonFungiblesFlow {
 
             val amountOfBikeCoins = amount of tokenIdentifier
 
-            TODO("Precisa implementar uma forma de fazer seleção de tokens sem utilizar o Tokens SDK" +
-                    "Precisa implementar na transação o envio do Report para o peer que esta recebendo a ação de Move")
+            /*** Não funciona com a customização do Fungible
             addMoveFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty, coinSelectionCriteria)
+             */
+
+            addMoveCustomFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty, coinSelectionCriteria)
+
 
             val signers = txBuilder.toLedgerTransaction(serviceHub).ourSigningKeys(serviceHub) + ourIdentity.owningKey
 
