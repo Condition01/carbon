@@ -9,7 +9,7 @@ import javax.persistence.*
 
 object CustomFungibleTokenSchema
 
-object CustomFungibleTokenSchemaV1 : MappedSchema(
+object CustomFungibleTokenSchemaV1: MappedSchema(
     schemaFamily = CustomFungibleTokenSchema.javaClass,
     version = 1,
     mappedTypes = listOf(CustomPersistentFungibleToken::class.java)

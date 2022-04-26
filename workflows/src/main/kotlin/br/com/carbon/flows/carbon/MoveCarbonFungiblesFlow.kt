@@ -58,8 +58,9 @@ object MoveCarbonFungiblesFlow {
             addMoveFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty, coinSelectionCriteria)
              */
 
-            addMoveCustomFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty, coinSelectionCriteria)
+//            addMoveFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty, coinSelectionCriteria)
 
+            addMoveCustomFungibleTokens(txBuilder, serviceHub, amountOfBikeCoins, newHolderParty, holderParty)
 
             val signers = txBuilder.toLedgerTransaction(serviceHub).ourSigningKeys(serviceHub) + ourIdentity.owningKey
 

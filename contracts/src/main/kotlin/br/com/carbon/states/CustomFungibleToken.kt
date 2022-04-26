@@ -28,7 +28,22 @@ import net.corda.core.schemas.QueryableState
 //    override val holder: AbstractParty,
 //    val reportLinearId: UniqueIdentifier,
 //    override val tokenTypeJarHash: SecureHash? = amount.token.tokenType.getAttachmentIdForGenericParam()
-//) : FungibleToken(amount = amount, holder = holder, tokenTypeJarHash = tokenTypeJarHash)
+//) : FungibleToken(amount = amount, holder = holder, tokenTypeJarHash = tokenTypeJarHash) {
+//    override fun generateMappedObject(schema: MappedSchema): PersistentState = when (schema) {
+//        is CustomFungibleTokenSchemaV1 -> CustomPersistentFungibleToken(
+//            issuer = amount.token.issuer,
+//            holder = holder,
+//            reportLinearId = this.reportLinearId.toString(),
+//            amount = amount.quantity,
+//            tokenClass = amount.token.tokenType.tokenClass,
+//            tokenIdentifier = amount.token.tokenType.tokenIdentifier,
+//            owningKeyHash = holder.owningKey.toStringShort()
+//        )
+//        else -> throw IllegalArgumentException("Unrecognised schema $schema")
+//    }
+//
+//    override fun supportedSchemas(): List<CustomFungibleTokenSchemaV1> = listOf(CustomFungibleTokenSchemaV1)
+//}
 
 @BelongsToContract(CustomFungibleTokenContract::class)
 open class CustomFungibleToken @JvmOverloads constructor(

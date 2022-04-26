@@ -13,7 +13,7 @@ import org.junit.Test
 class MoveCarbonFungiblesTest : FlowTests() {
 
     @Test
-    fun `Token Issue - Vanilla Test`() {
+    fun `Token Move - Vanilla Test`() {
         val tokenIdentifier = "CARBON"
 
         val aliceAccount = createAccount(
